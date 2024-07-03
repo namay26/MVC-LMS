@@ -7,22 +7,22 @@ import (
 	"github.com/namay26/MVC-LMS/views"
 )
 
-func LoginPage(w http.ResponseWriter, r *http.Request) {
-	views.Render(w, "login", nil)
+func RegisterPage(w http.ResponseWriter, r *http.Request) {
+	views.Render(w, "register", nil)
 }
 
-func Login(w http.ResponseWriter, r *http.Request) {
+func Register(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 
 	db, _ := model.Connect()
 	defer db.Close()
+	//Hashing password
+	registerSuccess, _ := model.UserRegister(db, username, password)
 
-	loginSuccess, _ := model.UserLogin(db, username, password)
-
-	if loginSuccess {
-		http.Redirect(w, r, "/user/home", http.StatusSeeOther)
+	if registerSuccess {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	} else {
 		http.Redirect(w, r, "/register", http.StatusSeeOther)
 	}

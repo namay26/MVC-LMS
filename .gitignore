@@ -3,3 +3,7 @@ MVC-LMS
 vendor/
 
 go.sum
+
+go.mod
+
+db.yaml

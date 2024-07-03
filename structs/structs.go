@@ -6,3 +6,15 @@ type User struct {
 	IsAdmin  bool
 	Pass     string
 }
+
+type Book struct {
+	ID       int
+	Title    string
+	Author   string
+	Genre    string
+	Quantity int
+}
+
+type ListBooks struct {
+	Books []Book
+}

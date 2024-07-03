@@ -1,0 +1,34 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Book List</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Books}}
+                    <tr ng-repeat="book in books">
+                        <td>{{.ID}}</td>
+                        <td>{{.Title}}</td>
+                        <td>{{.Author}}</td>
+                        <td>{{.Genre}}</td>
+                        <td>{{.Quantity}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+            <form action="/admin/listbooks" method="post">
+                Enter the ID of the book you want to edit: <input type="text" name="id" ng-model="bookID">
+                <button type="submit" class="btn btn-primary">Edit Book</button>
+            </form>
+        </div>
+    </div>
+</div>

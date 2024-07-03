@@ -9,7 +9,3 @@ import (
 func GetPage(w http.ResponseWriter, r *http.Request) {
 	views.Render(w, "index", nil)
 }
-
-func RegisterPage(w http.ResponseWriter, r *http.Request) {
-	views.Render(w, "register", nil)
-}
