@@ -1,1 +1,5 @@
 MVC-LMS
+
+vendor/
+
+go.sum
