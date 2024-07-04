@@ -35,6 +35,9 @@ func Initialize() {
 
 	adminRouter.HandleFunc("/addbook", controller.GetAddBook).Methods("GET")
 	adminRouter.HandleFunc("/addbook", controller.AddBook).Methods("POST")
+
+	adminRouter.HandleFunc("/deletebook", controller.GetDeleteBook).Methods("GET")
+	adminRouter.HandleFunc("/deletebook", controller.DeleteBook).Methods("POST")
 	// router.HandleFunc("/500", controller.InternalServerError).Methods("GET")
 	// router.HandleFunc("/403", controller.UnauthorizedAccessError).Methods("GET")
 

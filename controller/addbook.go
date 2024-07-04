@@ -24,9 +24,8 @@ func AddBook(w http.ResponseWriter, r *http.Request) {
 
 	AddSuccessful, _ := model.AddBook(db, Title, Author, Genre, Quantity)
 	if AddSuccessful {
-		fmt.Println("Book added successfully")
+		http.Redirect(w, r, "/admin/listbooks", http.StatusSeeOther)
 	} else {
 		fmt.Println("Error adding book")
 	}
-
 }
