@@ -14,8 +14,7 @@ func AdminUpdateCheck(w http.ResponseWriter, r *http.Request) {
 	db, _ := model.Connect()
 	defer db.Close()
 
-	book, _ := model.GetBook(db, id)
-
-	views.Render(w, "adminupdate", book)
+	Book, _ := model.GetBook(db, id)
+	views.Render(w, "adminupdate", Book)
 
 }

@@ -7,10 +7,10 @@ import (
 )
 
 func GetBook(db *sql.DB, id string) (structs.Book, error) {
-	var book structs.Book
-	err := db.QueryRow("SELECT * FROM books WHERE id = ?", id).Scan(&book.ID, &book.Title, &book.Author, &book.Genre)
+	var Book structs.Book
+	err := db.QueryRow("SELECT * FROM books WHERE id = ?", id).Scan(&Book.ID, &Book.Title, &Book.Author, &Book.Genre, &Book.Quantity)
 	if err != nil {
-		return book, err
+		return Book, err
 	}
-	return book, nil
+	return Book, nil
 }

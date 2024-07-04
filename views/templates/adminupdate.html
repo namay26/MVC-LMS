@@ -1,1 +1,38 @@
-<h1>Welcome to {{.id}}</h1>
+<h1>Welcome to hello</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Book List</h1>
+            The selected book is : 
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="book in Book">
+                        <td>{{.ID}}</td>
+                        <td>{{.Title}}</td>
+                        <td>{{.Author}}</td>
+                        <td>{{.Genre}}</td>
+                        <td>{{.Quantity}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <form method="post" action="/admin/updatebook">
+                <input type="hidden" ng-model="book.ID" name="id" value={{.ID}} class="form-control" />
+                <input type="text" ng-model="book.Title" name="title" value={{.Title}} class="form-control" />
+                <input type="text" ng-model="book.Author" name="author" value={{.Author}} class="form-control" />
+                <input type="text" ng-model="book.Genre" name="genre" value={{.Genre}} class="form-control" />
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -30,6 +30,11 @@ func Initialize() {
 	adminRouter.HandleFunc("/home", controller.AdminHome).Methods("GET")
 	adminRouter.HandleFunc("/listbooks", controller.AdminListBook).Methods("GET")
 	adminRouter.HandleFunc("/listbooks", controller.AdminUpdateCheck).Methods("POST")
+
+	adminRouter.HandleFunc("/updatebook", controller.AdminUpdate).Methods("POST")
+
+	adminRouter.HandleFunc("/addbook", controller.GetAddBook).Methods("GET")
+	adminRouter.HandleFunc("/addbook", controller.AddBook).Methods("POST")
 	// router.HandleFunc("/500", controller.InternalServerError).Methods("GET")
 	// router.HandleFunc("/403", controller.UnauthorizedAccessError).Methods("GET")
 
