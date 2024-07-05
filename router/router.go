@@ -6,6 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/namay26/MVC-LMS/controller"
+	"github.com/namay26/MVC-LMS/middleware"
 )
 
 func Initialize() {
@@ -21,8 +22,11 @@ func Initialize() {
 	mainRouter.HandleFunc("/register", controller.RegisterPage).Methods("GET")
 	mainRouter.HandleFunc("/login", controller.LoginPage).Methods("GET")
 
+	adminRouter.Use(middleware.Authenticator)
+	userRouter.Use(middleware.Authenticator)
+
 	mainRouter.HandleFunc("/login", controller.Login).Methods("POST")
-	mainRouter.HandleFunc("/register", controller.RegisterPage).Methods("POST")
+	mainRouter.HandleFunc("/register", controller.Register).Methods("POST")
 
 	userRouter.HandleFunc("/home", controller.Home).Methods("GET")
 	userRouter.HandleFunc("/listbooks", controller.ListBooks).Methods("GET")
@@ -38,6 +42,9 @@ func Initialize() {
 
 	adminRouter.HandleFunc("/deletebook", controller.GetDeleteBook).Methods("GET")
 	adminRouter.HandleFunc("/deletebook", controller.DeleteBook).Methods("POST")
+
+	userRouter.HandleFunc("/reqcheckout", controller.GetReqCheckout).Methods("GET")
+	userRouter.HandleFunc("/reqcheckout", controller.ReqCheckout).Methods("POST")
 	// router.HandleFunc("/500", controller.InternalServerError).Methods("GET")
 	// router.HandleFunc("/403", controller.UnauthorizedAccessError).Methods("GET")
 

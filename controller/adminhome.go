@@ -8,4 +8,5 @@ import (
 
 func AdminHome(w http.ResponseWriter, r *http.Request) {
 	views.Render(w, "adminhome", nil)
+
 }

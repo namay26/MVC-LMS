@@ -4,26 +4,35 @@ import (
 	"net/http"
 
 	"github.com/namay26/MVC-LMS/model"
+	"github.com/namay26/MVC-LMS/structs"
 	"github.com/namay26/MVC-LMS/views"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func RegisterPage(w http.ResponseWriter, r *http.Request) {
+	cookie := &http.Cookie{
+		Name:   "JWT",
+		Value:  "",
+		MaxAge: -1,
+	}
+	http.SetCookie(w, cookie)
 	views.Render(w, "register", nil)
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	username := r.FormValue("username")
-	password := r.FormValue("password")
-
 	db, _ := model.Connect()
 	defer db.Close()
-	//Hashing password
-	registerSuccess, _ := model.UserRegister(db, username, password)
 
-	if registerSuccess {
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
-	} else {
-		http.Redirect(w, r, "/register", http.StatusSeeOther)
+	password, _ := bcrypt.GenerateFromPassword([]byte(r.FormValue("password")), bcrypt.DefaultCost)
+	user := structs.User{
+		Username: r.FormValue("username"),
+		Pass:     password,
 	}
+
+	_, err := model.UserRegister(db, user)
+	if err != nil {
+		views.Render(w, "register", "Error registering user")
+		return
+	}
+	views.Render(w, "login", "User registered successfully")
 }

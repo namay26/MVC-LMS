@@ -13,7 +13,7 @@ echo "Database created successfully!"
 
 
 echo "Enter Secret key for JWT: "
-read secretkey
+read secretKey
 
 cat << EOF > db.yaml
 DB_USERNAME: "$username"

@@ -1,0 +1,33 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Book List available for Checkout</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th>Checkout</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Books}}
+                    <tr ng-repeat="book in books">
+                        <td>{{.Title}}</td>
+                        <td>{{.Author}}</td>
+                        <td>{{.Genre}}</td>
+                        <td>
+                            <form method="post" action="/user/reqcheckout">
+                                <input type="hidden" name="bookid" value="{{.ID}}">
+                                <button type="submit" class="btn btn-primary">Checkout</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

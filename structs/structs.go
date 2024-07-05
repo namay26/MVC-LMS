@@ -1,10 +1,10 @@
 package structs
 
 type User struct {
-	Userid   int
+	Userid   float64
 	Username string
-	IsAdmin  bool
-	Pass     string
+	IsAdmin  bool `default:"false"`
+	Pass     []byte
 }
 
 type Book struct {
