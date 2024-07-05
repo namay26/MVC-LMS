@@ -28,4 +28,4 @@ echo "Database configuration file created successfully!"
 go mod vendor
 go mod tidy
 
-echo "Kindly run 'go run main.go' to start the server"
+echo "Kindly change your directory to /cmd and run 'go run main.go' to start the server"
