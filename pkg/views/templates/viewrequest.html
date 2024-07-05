@@ -1,0 +1,38 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Book List</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Request Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .BorrowHistory}}
+                    <tr ng-repeat="book in books">
+                        <td>{{.UserID}}</td>
+                        <td>{{.Username}}</td>
+                        <td>{{.Title}}</td>
+                        <td>{{.Author}}</td>
+                        <td>{{.RequestDate}}</td>
+                        <td>
+                            <form method="POST" action="/admin/viewrequest">
+                                <input type="hidden" name="userid" value="{{.UserID}}">
+                                <input type="hidden" name="username" value="{{.Username}}">
+                                <button type="submit" class="btn btn-primary">Approve</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
