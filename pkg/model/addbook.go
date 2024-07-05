@@ -13,3 +13,12 @@ func AddBook(db *sql.DB, Title, Author, Genre, Quantity string) (bool, error) {
 	}
 	return true, nil
 }
+
+func AddQuantity(db *sql.DB, Title, Author, Quantity string) (bool, error) {
+	quant, _ := strconv.Atoi(Quantity)
+	_, err := db.Exec("UPDATE books SET quantity = quantity + ? WHERE title = ? AND author = ?", quant, Title, Author)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

@@ -22,10 +22,21 @@ func AddBook(w http.ResponseWriter, r *http.Request) {
 	db, _ := model.Connect()
 	defer db.Close()
 
-	AddSuccessful, _ := model.AddBook(db, Title, Author, Genre, Quantity)
-	if AddSuccessful {
-		http.Redirect(w, r, "/admin/listbooks", http.StatusSeeOther)
+	CheckDuplicates, _ := model.CheckDuplicateBook(db, Title, Author)
+
+	if CheckDuplicates {
+		AddQuantity, _ := model.AddQuantity(db, Title, Author, Quantity)
+		if AddQuantity {
+			http.Redirect(w, r, "/admin/listbooks", http.StatusSeeOther)
+		} else {
+			fmt.Println("Error adding book")
+		}
 	} else {
-		fmt.Println("Error adding book")
+		AddSuccessful, _ := model.AddBook(db, Title, Author, Genre, Quantity)
+		if AddSuccessful {
+			http.Redirect(w, r, "/admin/listbooks", http.StatusSeeOther)
+		} else {
+			fmt.Println("Error adding book")
+		}
 	}
 }
