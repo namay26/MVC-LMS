@@ -30,7 +30,7 @@ func ReturnBook(db *sql.DB, user structs.User, bookid string) bool {
 	if err != nil {
 		return false
 	}
-	sqlquery := "UPDATE BookRequests SET Status='Returned' WHERE BookID=? AND UserID=?"
+	sqlquery := "UPDATE BookRequests SET Status='Returned', ReturnDate=NOW() WHERE BookID=? AND UserID=?"
 	_, err = db.Exec(sqlquery, bid, user.Userid)
 	if err != nil {
 		return false

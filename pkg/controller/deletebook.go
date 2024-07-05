@@ -25,6 +25,11 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	db, _ := model.Connect()
 	defer db.Close()
 
+	checkBorrowed, _ := model.CheckBorrowed(db, bookid)
+	if checkBorrowed {
+		http.Redirect(w, r, "/admin/deletebook", http.StatusSeeOther)
+		return
+	}
 	deletesuccess, err := model.DeleteBook(db, bookid)
 	if err != nil {
 		panic(err)

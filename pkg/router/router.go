@@ -58,7 +58,7 @@ func Initialize() {
 	adminRouter.HandleFunc("/grantadmin", controller.GrantAdmin).Methods("POST")
 
 	adminRouter.HandleFunc("/viewrequest", controller.GetViewRequest).Methods("GET")
-	//adminRouter.HandleFunc("/viewrequest", controller.ViewRequest).Methods("POST")
+	adminRouter.HandleFunc("/viewrequest", controller.ViewRequest).Methods("POST")
 	// router.HandleFunc("/500", controller.InternalServerError).Methods("GET")
 	// router.HandleFunc("/403", controller.UnauthorizedAccessError).Methods("GET")
 
