@@ -1,4 +1,4 @@
-USE DATABASE MVC;
+USE mvc;
 
 CREATE TABLE books (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -16,8 +16,6 @@ CREATE TABLE Users (
     acctcreate TIMESTAMP DEFAULT NOW() NOT NULL,
     adminStatus ENUM('NotRequested','Pending','isAdmin') DEFAULT 'NotRequested' NOT NULL
 );
-
-INSERT INTO USERS (username, pass, isAdmin, adminStatus) VALUES ('admin', '$2b$10$.nLfgWWsY040rb8UxhwRq.AECUI5ng0WJ9IsoS9c.8XCDjOD4AOCW', 1, 'isAdmin');
 
 CREATE TABLE BookRequests (
     RequestID INT AUTO_INCREMENT PRIMARY KEY,

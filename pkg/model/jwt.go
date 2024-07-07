@@ -12,7 +12,7 @@ type Config struct {
 }
 
 func JwtSecretKey() string {
-	configFile, err := os.ReadFile("./../db.yaml")
+	configFile, err := os.ReadFile("db.yaml")
 	if err != nil {
 		log.Fatalf("Failed to read db.yaml: %v", err)
 	}

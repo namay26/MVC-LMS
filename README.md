@@ -2,7 +2,8 @@
 
 Steps to run:
 
-1) `chmod -x setup.sh`
+1) `chmod +x setup.sh`
 2) `./setup.sh`
-3) Change your directory to cmd and `go run main.go`
+3) `go run cmd/main.go`
 
+First user created has the admin access.
