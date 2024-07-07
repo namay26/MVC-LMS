@@ -22,14 +22,16 @@ read username
 echo "Kindly enter your MySQL password: "
 read -s password
 
-mysql -u "$username" -p"$password" -e "CREATE DATABASE IF NOT EXISTS mvc;"
+echo "Kindly enter your DB name: "
+read dbName
+
+mysql -u "$username" -p"$password" -e "CREATE DATABASE IF NOT EXISTS $dbName;"
 
 echo "Created database 'mvc' successfully!"
 
-mysql -u "$username" -p"$password" mvc < database.sql
+migrate -path ./database/migration/ -database "mysql://$username:$password@tcp(localhost:3306)/$dbName" -verbose up
 
-echo "Database setup successful!"
-
+echo "Database migrated successfully!"
 
 echo "Enter Secret key for JWT: "
 read secretKey
@@ -38,7 +40,7 @@ cat << EOF > db.yaml
 DB_USERNAME: "$username"
 DB_PASSWORD: "$password"
 DB_HOST: 127.0.0.1:3306
-DB_NAME: mvc
+DB_NAME: "$dbName"
 JWTSecretKey: "$secretKey"
 EOF
 
