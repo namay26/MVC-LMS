@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/namay26/MVC-LMS/pkg/model"
@@ -23,7 +24,12 @@ func ViewRequest(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	userid := r.FormValue("userid")
 	bookid := r.FormValue("bookid")
-	acptreq := model.AcceptRequest(db, userid, bookid)
+	acptreq, err := model.AcceptRequest(db, userid, bookid)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/500", http.StatusSeeOther)
+		return
+	}
 	if acptreq {
 		http.Redirect(w, r, "/admin/viewrequest", http.StatusSeeOther)
 	} else {

@@ -28,14 +28,14 @@ func ViewRequest(db *sql.DB) (structs.ListBookReq, error) {
 
 }
 
-func AcceptRequest(db *sql.DB, userid string, bookid string) bool {
+func AcceptRequest(db *sql.DB, userid string, bookid string) (bool, error) {
 	uid, _ := strconv.Atoi(userid)
 	bid, _ := strconv.Atoi(bookid)
 	sqlquery := "UPDATE BookRequests SET Status = 'Approved', AcceptDate=NOW() WHERE BookID = ? AND UserID = ?"
 	_, err := db.Exec(sqlquery, bid, uid)
 	if err != nil {
-		return false
+		return false, err
 	} else {
-		return true
+		return true, nil
 	}
 }

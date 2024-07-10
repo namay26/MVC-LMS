@@ -39,3 +39,7 @@ type BorrowHistory struct {
 type ListBookReq struct {
 	BorrowHistory []BorrowHistory
 }
+
+type PageMessage struct {
+	Message interface{}
+}

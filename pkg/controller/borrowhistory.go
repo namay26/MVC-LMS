@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/namay26/MVC-LMS/pkg/middleware"
@@ -12,6 +13,11 @@ func GetBorrowHistory(w http.ResponseWriter, r *http.Request) {
 	db, _ := model.Connect()
 	defer db.Close()
 	user := middleware.GetUser(r)
-	borrowhistory, _ := model.GetBorrowHistory(db, user)
+	borrowhistory, err := model.GetBorrowHistory(db, user)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/500", http.StatusSeeOther)
+		return
+	}
 	views.Render(w, "borrowhistory", borrowhistory)
 }

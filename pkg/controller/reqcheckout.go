@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/namay26/MVC-LMS/pkg/middleware"
@@ -30,7 +31,9 @@ func ReqCheckout(w http.ResponseWriter, r *http.Request) {
 
 	err := model.Checkout(db, bookid, user.Userid)
 	if err != nil {
-		panic(err)
+		log.Println(err)
+		http.Redirect(w, r, "/500", http.StatusSeeOther)
+		return
 	}
 	http.Redirect(w, r, "/user/reqcheckout", http.StatusFound)
 

@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"strconv"
 
@@ -28,14 +27,13 @@ func GrantAdmin(db *sql.DB) (structs.ListUsers, error) {
 	return userlist, nil
 }
 
-func GrantAdminUpdate(db *sql.DB, userId string) bool {
+func GrantAdminUpdate(db *sql.DB, userId string) (bool, error) {
 
 	uid, _ := strconv.Atoi(userId)
 	_, err := db.Exec("Update Users set isAdmin=1, adminStatus='isAdmin' where userid=?", uid)
 	if err != nil {
-		fmt.Println(err)
-		return false
+		return false, err
 	}
-	return true
+	return true, nil
 
 }

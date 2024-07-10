@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/namay26/MVC-LMS/pkg/middleware"
@@ -27,7 +28,12 @@ func ReturnBook(w http.ResponseWriter, r *http.Request) {
 
 	user := middleware.GetUser(r)
 
-	model.ReturnBook(db, user, bookid)
+	err := model.ReturnBook(db, user, bookid)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/500", http.StatusSeeOther)
+		return
+	}
 
 	http.Redirect(w, r, "/user/returnbook", http.StatusSeeOther)
 }

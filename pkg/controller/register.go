@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/namay26/MVC-LMS/pkg/model"
@@ -16,23 +17,47 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) {
 		MaxAge: -1,
 	}
 	http.SetCookie(w, cookie)
-	views.Render(w, "register", nil)
+
+	var message structs.PageMessage
+	var err error
+	message.Message, err = GetFlash(w, r)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/500", http.StatusSeeOther)
+		return
+	}
+
+	views.Render(w, "register", message)
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
 	db, _ := model.Connect()
 	defer db.Close()
 
-	password, _ := bcrypt.GenerateFromPassword([]byte(r.FormValue("password")), bcrypt.DefaultCost)
-	user := structs.User{
-		Username: r.FormValue("username"),
-		Pass:     password,
-	}
-
-	_, err := model.UserRegister(db, user)
-	if err != nil {
-		views.Render(w, "register", "Error registering user")
+	userFound, err1 := model.UserFound(db, r.FormValue("username"))
+	if err1 != nil {
+		log.Println(err1)
+		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	views.Render(w, "login", "User registered successfully")
+
+	if !userFound {
+		password, _ := bcrypt.GenerateFromPassword([]byte(r.FormValue("password")), bcrypt.DefaultCost)
+
+		user := structs.User{
+			Username: r.FormValue("username"),
+			Pass:     password,
+		}
+
+		_, err := model.UserRegister(db, user)
+		if err != nil {
+
+			http.Redirect(w, r, "/register", http.StatusSeeOther)
+			return
+		}
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	} else {
+		SetFlash(w, r, "User already exists")
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	}
 }

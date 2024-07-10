@@ -59,8 +59,10 @@ func Initialize() {
 
 	adminRouter.HandleFunc("/viewrequest", controller.GetViewRequest).Methods("GET")
 	adminRouter.HandleFunc("/viewrequest", controller.ViewRequest).Methods("POST")
-	// router.HandleFunc("/500", controller.InternalServerError).Methods("GET")
+	mainRouter.HandleFunc("/500", controller.InternalServerError).Methods("GET")
 	// router.HandleFunc("/403", controller.UnauthorizedAccessError).Methods("GET")
+
+	mainRouter.NotFoundHandler = http.HandlerFunc(controller.PageNotFound)
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

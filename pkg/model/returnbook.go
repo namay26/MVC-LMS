@@ -25,15 +25,15 @@ func GetReturnBook(db *sql.DB, user structs.User) (structs.ListBookReq, error) {
 	return returnbook, nil
 }
 
-func ReturnBook(db *sql.DB, user structs.User, bookid string) bool {
+func ReturnBook(db *sql.DB, user structs.User, bookid string) error {
 	bid, err := strconv.Atoi(bookid)
 	if err != nil {
-		return false
+		return err
 	}
 	sqlquery := "UPDATE BookRequests SET Status='Returned', ReturnDate=NOW() WHERE BookID=? AND UserID=?"
-	_, err = db.Exec(sqlquery, bid, user.Userid)
-	if err != nil {
-		return false
+	_, err1 := db.Exec(sqlquery, bid, user.Userid)
+	if err1 != nil {
+		return err1
 	}
-	return true
+	return nil
 }
