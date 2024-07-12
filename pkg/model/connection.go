@@ -12,8 +12,13 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func getData() string {
-	file, err := os.ReadFile("db.yaml")
+func getData(dbPath ...bool) string {
+	var path string = "db.yaml"
+	if dbPath != nil {
+		path = "../../db.yaml"
+	}
+
+	file, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,8 +43,8 @@ func getData() string {
 
 }
 
-func Connect() (*sql.DB, error) {
-	db, err := sql.Open("mysql", getData())
+func Connect(path ...bool) (*sql.DB, error) {
+	db, err := sql.Open("mysql", getData(path[0]))
 	if err != nil {
 		log.Printf("Error: %s when opening DB", err)
 		return nil, err

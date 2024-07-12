@@ -7,3 +7,8 @@ Steps to run:
 3) `go run cmd/main.go`
 
 First user created has the admin access.
+
+Steps to run Unit Tests:
+
+1) `cd pkg/tests`
+2) `go test -v`
