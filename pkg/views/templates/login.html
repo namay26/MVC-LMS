@@ -71,12 +71,12 @@
         </form>
     </div>
 
-    {{if .Message}}
+    {{if .Message.Message}}
     <div
       class="alert alert-warning alert-dismissible fade show my-3"
       role="alert"
     >
-      {{.Message}}
+      {{.Message.Message}}
       <button
         type="button"
         class="close"

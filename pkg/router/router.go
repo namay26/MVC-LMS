@@ -28,12 +28,12 @@ func Initialize() {
 	mainRouter.HandleFunc("/login", controller.Login).Methods("POST")
 	mainRouter.HandleFunc("/register", controller.Register).Methods("POST")
 
-	userRouter.HandleFunc("/home", controller.Home).Methods("GET")
-	userRouter.HandleFunc("/listbooks", controller.ListBooks).Methods("GET")
+	userRouter.HandleFunc("/home", controller.UserHome).Methods("GET")
+	userRouter.HandleFunc("/listbooks", controller.UserListBooks).Methods("GET")
 
 	adminRouter.HandleFunc("/home", controller.AdminHome).Methods("GET")
-	adminRouter.HandleFunc("/listbooks", controller.AdminListBook).Methods("GET")
-	adminRouter.HandleFunc("/listbooks", controller.AdminUpdateCheck).Methods("POST")
+	adminRouter.HandleFunc("/listbooks", controller.GetAdminListBook).Methods("GET")
+	adminRouter.HandleFunc("/listbooks", controller.GetAdminUpdate).Methods("POST")
 
 	adminRouter.HandleFunc("/updatebook", controller.AdminUpdate).Methods("POST")
 
@@ -60,7 +60,6 @@ func Initialize() {
 	adminRouter.HandleFunc("/viewrequest", controller.GetViewRequest).Methods("GET")
 	adminRouter.HandleFunc("/viewrequest", controller.ViewRequest).Methods("POST")
 	mainRouter.HandleFunc("/500", controller.InternalServerError).Methods("GET")
-	// router.HandleFunc("/403", controller.UnauthorizedAccessError).Methods("GET")
 
 	mainRouter.NotFoundHandler = http.HandlerFunc(controller.PageNotFound)
 

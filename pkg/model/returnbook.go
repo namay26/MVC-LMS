@@ -8,7 +8,7 @@ import (
 )
 
 func GetReturnBook(db *sql.DB, user structs.User) (structs.ListBookReq, error) {
-	rows, err := db.Query("SELECT BookRequests.RequestID, books.title, books.author, books.genre, BookRequests.RequestDate, BookRequests.AcceptDate FROM BookRequests JOIN books ON books.id=BookRequests.BookID WHERE BookRequests.UserID=? AND BookRequests.Status='Approved'", user.Userid)
+	rows, err := db.Query("SELECT books.id, books.title, books.author, books.genre, BookRequests.RequestDate, BookRequests.AcceptDate FROM BookRequests JOIN books ON books.id=BookRequests.BookID WHERE BookRequests.UserID=? AND BookRequests.Status='Approved'", user.Userid)
 	if err != nil {
 		panic(err)
 	}
@@ -35,5 +35,5 @@ func ReturnBook(db *sql.DB, user structs.User, bookid string) error {
 	if err1 != nil {
 		return err1
 	}
-	return nil
+	return err1
 }

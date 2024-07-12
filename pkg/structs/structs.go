@@ -43,3 +43,8 @@ type ListBookReq struct {
 type PageMessage struct {
 	Message interface{}
 }
+
+type Datasent struct {
+	Results interface{} `default:"nil"`
+	Message PageMessage `default:"nil"`
+}

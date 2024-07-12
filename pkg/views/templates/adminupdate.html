@@ -30,7 +30,7 @@
 <body>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Lib-Manager</a>
+      <a class="navbar-brand" href="/admin/home">Lib-Manager</a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -75,29 +75,30 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="book in Book">
-                <td>{{.ID}}</td>
-                <td>{{.Title}}</td>
-                <td>{{.Author}}</td>
-                <td>{{.Genre}}</td>
-                <td>{{.Quantity}}</td>
+            <tr ng-repeat="book in Results">
+                <td>{{.Results.ID}}</td>
+                <td>{{.Results.Title}}</td>
+                <td>{{.Results.Author}}</td>
+                <td>{{.Results.Genre}}</td>
+                <td>{{.Results.Quantity}}</td>
             </tr>
         </tbody>
       </table>
       <form method="post" action="/admin/updatebook">
-        <input type="hidden" ng-model="book.ID" name="id" value={{.ID}} class="form-control" required/>
-        <input type="text" ng-model="book.Title" name="title" value={{.Title}} class="form-control" required/>
-        <input type="text" ng-model="book.Author" name="author" value={{.Author}} class="form-control" required/>
-        <input type="text" ng-model="book.Genre" name="genre" value={{.Genre}} class="form-control" required/>
+        <input type="hidden" ng-model="book.ID" name="id" value={{.Results.ID}} class="form-control" required/>
+        <input type="text" ng-model="book.Title" name="title" value={{.Results.Title}} class="form-control" required/>
+        <input type="text" ng-model="book.Author" name="author" value={{.Results.Author}} class="form-control" required/>
+        <input type="text" ng-model="book.Genre" name="genre" value={{.Results.Genre}} class="form-control" required/>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
   </center>
-  {{if .Message}}
+
+  {{if .Message.Message}}
   <div
     class="alert alert-warning alert-dismissible fade show my-3"
     role="alert"
   >
-    {{.Message}}
+    {{.Message.Message}}
     <button
       type="button"
       class="close"

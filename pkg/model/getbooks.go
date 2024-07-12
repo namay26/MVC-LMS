@@ -24,3 +24,12 @@ func GetBooks(db *sql.DB) (structs.ListBooks, error) {
 	}
 	return listbook, nil
 }
+
+func GetBook(db *sql.DB, id string) (structs.Book, error) {
+	var Book structs.Book
+	err := db.QueryRow("SELECT * FROM books WHERE id = ?", id).Scan(&Book.ID, &Book.Title, &Book.Author, &Book.Genre, &Book.Quantity)
+	if err != nil {
+		return Book, err
+	}
+	return Book, nil
+}
