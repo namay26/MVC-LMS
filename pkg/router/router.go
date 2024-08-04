@@ -16,6 +16,8 @@ func Initialize() {
 	mainRouter := mux.NewRouter()
 	mainRouter.HandleFunc("/", controller.GetPage)
 
+	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
+
 	adminRouter := mainRouter.PathPrefix("/admin").Subrouter()
 	userRouter := mainRouter.PathPrefix("/user").Subrouter()
 	http.Handle("/", mainRouter)

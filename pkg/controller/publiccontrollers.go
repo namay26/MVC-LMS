@@ -30,15 +30,18 @@ func LoginPage(w http.ResponseWriter, r *http.Request) {
 		Value:  "",
 		MaxAge: -1,
 	}
+
 	http.SetCookie(w, cookie)
 	var message structs.PageMessage
 	var err error
+
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
+
 	var data structs.Datasent
 	data.Message = message
 	views.Render(w, "login", data)
@@ -47,7 +50,6 @@ func LoginPage(w http.ResponseWriter, r *http.Request) {
 func Login(w http.ResponseWriter, r *http.Request) {
 	db, _ := model.Connect()
 	defer db.Close()
-
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 
@@ -57,7 +59,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-
 	if userFound {
 		passwordMatch, user, err := model.PasswordMatch(db, username, password)
 		if err != nil {
@@ -125,13 +126,26 @@ func Register(w http.ResponseWriter, r *http.Request) {
 			Pass:     password,
 		}
 
-		_, err := model.UserRegister(db, user)
+		isAdmin, _, err := model.UserRegister(db, user)
 		if err != nil {
-
 			http.Redirect(w, r, "/register", http.StatusSeeOther)
 			return
 		}
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
+
+		userid, err2 := model.GetUserID(db, user.Username)
+		if err2 != nil {
+			log.Println(err2)
+			http.Redirect(w, r, "/500", http.StatusSeeOther)
+		}
+		user.Userid = userid
+		if isAdmin {
+			user.IsAdmin = true
+			middleware.SendCookie(w, user)
+			http.Redirect(w, r, "/admin/home", http.StatusSeeOther)
+		} else {
+			middleware.SendCookie(w, user)
+			http.Redirect(w, r, "/user/home", http.StatusSeeOther)
+		}
 	} else {
 		SetFlash(w, r, "User already exists")
 		http.Redirect(w, r, "/login", http.StatusSeeOther)

@@ -1,0 +1,27 @@
+body{
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+header{
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    margin: 0.5in;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    margin-top: 2in;
+    padding:0.3in;
+    width: max-content;
+    flex-direction: column;
+    border: rgb(0, 0, 0, 0.8) 1px solid;
+    border-radius:0.1in;  
+}     
+
+.navbar{
+height: 10vh;
+}

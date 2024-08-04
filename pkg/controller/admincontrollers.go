@@ -139,10 +139,12 @@ func AdminUpdate(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("title")
 	author := r.FormValue("author")
 	genre := r.FormValue("genre")
+	quant := r.FormValue("quantity")
+
 	db, _ := model.Connect()
 	defer db.Close()
 
-	updatesuccess, err := model.UpdateBook(db, id, title, author, genre)
+	updatesuccess, err := model.UpdateBook(db, id, title, author, genre, quant)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(w, r, "/500", http.StatusSeeOther)

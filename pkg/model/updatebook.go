@@ -5,10 +5,11 @@ import (
 	"strconv"
 )
 
-func UpdateBook(db *sql.DB, id, title, author, genre string) (bool, error) {
+func UpdateBook(db *sql.DB, id, title, author, genre, quant string) (bool, error) {
 	i, _ := strconv.Atoi(id)
-	sqlquery := "UPDATE books SET title = ?, author = ?, genre = ? WHERE id = ?"
-	_, err := db.Exec(sqlquery, title, author, genre, i)
+	q, _ := strconv.Atoi(quant)
+	sqlquery := "UPDATE books SET title = ?, author = ?, genre = ?, quantity = ? WHERE id = ?"
+	_, err := db.Exec(sqlquery, title, author, genre, q, i)
 
 	if err != nil {
 		return false, err

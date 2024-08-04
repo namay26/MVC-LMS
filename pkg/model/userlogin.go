@@ -38,3 +38,13 @@ func PasswordMatch(db *sql.DB, username, password string) (bool, structs.User, e
 
 	return true, user, nil
 }
+
+func GetUserID(db *sql.DB, username string) (float64, error) {
+	selectSql := `SELECT userid FROM Users where username = ?`
+	var userid float64
+	err := db.QueryRow(selectSql, username).Scan(&userid)
+	if err != nil {
+		return 0, err
+	}
+	return userid, nil
+}

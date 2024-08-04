@@ -1,35 +1,70 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
-    <title>Document</title>
-    <style>
-        .right{
-          background-color: #444969;
-          border: 1px solid #444969;
-        }
-        .item{
-        width:80%;
-        text-align: center;
-        margin-top: 1in;
-      }
-      .b{
-        margin-left: 0.05in;
-        color: white;
-        background-color: red;
-        border-radius: 0.05in;
-      }
-      .navbar{
-        height: 10vh;
-      }
-      </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
+    defer></script>
+    <script src="/public/checks.js"></script>
+  <title>Document</title>
+  <style>
+    .right {
+      background-color: #444969;
+      border: 1px solid #444969;
+    }
+
+    .item {
+      width: 80%;
+      text-align: center;
+      margin-top: 1in;
+    }
+
+    .b {
+      margin-left: 0.05in;
+      color: white;
+      background-color: red;
+      border-radius: 0.05in;
+    }
+
+    .navbar {
+      height: 10vh;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btnn {
+      color: white;
+      border: none;
+      border-radius: 0.05in;
+      margin-left: 40%;
+    }
+    .quantity{                                                                                          
+  
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }                                                
+    .quantity button{
+      padding-left: 0.25in;
+      padding-right: 0.25in;
+      margin: 0.05in;
+    }
+    .quantity input{
+      margin: 0.05in;
+    }
+  </style>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
@@ -37,10 +72,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/admin/home">Home</a>
+            <a class="nav-link" aria-current="page" href="/admin/home">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/listbooks">List</a>
+            <a class="nav-link active" href="/admin/listbooks">List</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/addbook">Add</a>
@@ -49,68 +84,89 @@
             <a class="nav-link" href="/admin/deletebook">Delete</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/viewrequest">View Request</a>
+            <a class="nav-link" href="/admin/viewrequest">Book Requests</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/grantadmin">Add Admins</a>
+            <a class="nav-link" href="/admin/grantadmin">Admin Requests</a>
           </li>
-          <!--
           <li class="nav-item">
-            <a class="nav-link b" href="/logout">LOG-OUT</a>
-          </li> -->
+            <a class="nav-link b" href="/login">LOG-OUT</a>
+          </li>
         </ul>
         <div>
-            <input type="button" class="right" value="Admin" disabled>
+          <input type="button" class="right" value="Admin" disabled>
         </div>
       </div>
     </div>
   </nav>
-    <center>
+  <center>
     The selected book is:
     <table class="table item table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Genre</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="book in Results">
-                <td>{{.Results.ID}}</td>
-                <td>{{.Results.Title}}</td>
-                <td>{{.Results.Author}}</td>
-                <td>{{.Results.Genre}}</td>
-                <td>{{.Results.Quantity}}</td>
-            </tr>
-        </tbody>
-      </table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Genre</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="book in Results">
+          <td>{{.Results.ID}}</td>
+          <td>{{.Results.Title}}</td>
+          <td>{{.Results.Author}}</td>
+          <td>{{.Results.Genre}}</td>
+          <td>{{.Results.Quantity}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="container">
       <form method="post" action="/admin/updatebook">
-        <input type="hidden" ng-model="book.ID" name="id" value={{.Results.ID}} class="form-control" required/>
-        <input type="text" ng-model="book.Title" name="title" value={{.Results.Title}} class="form-control" required/>
-        <input type="text" ng-model="book.Author" name="author" value={{.Results.Author}} class="form-control" required/>
-        <input type="text" ng-model="book.Genre" name="genre" value={{.Results.Genre}} class="form-control" required/>
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
+        <table>
+          <input type="hidden" ng-model="book.ID" name="id" value={{.Results.ID}} class="form-control" required />
+          <tr>
+            <th>Title : </th>
+            <td><input type="text" ng-model="book.Title" name="title" value={{.Results.Title}} class="form-control"
+                required /></td>
+          </tr>
+          <tr>
+            <th>Author : </th>
+            <td><input type="text" ng-model="book.Author" name="author" value={{.Results.Author}} class="form-control"
+                required /></td>
+          </tr>
+          <tr>
+            <th>Genre : </th>
+            <td><input type="text" ng-model="book.Genre" name="genre" value={{.Results.Genre}} class="form-control"
+                required /></td>
+          </tr>
+          <tr>
+            <th>Quantity : </th>
+            <td class="quantity">
+              <input type="hidden" ng-model="book.Quantity" id="send" name="quantity" value={{.Results.Quantity}} class="form-control"
+               />
+              <input type="text" ng-model="book.Quantity" id="quant" value={{.Results.Quantity}} class="form-control"
+                disabled />
+              <input type="text" id="quantity" class="form-control" placeholder="Enter the amount of book" ng-model="book.Quantity" />
+              <button type="button" class="btn btn-primary" onclick="decrement()">-</button>
+              <button type="button" class="btn btn-primary" onclick="increment()">+</button>
+            </td>
+          <tr>
+            <td colspan="2"><button type="submit" class="btnn btn btn-primary">Update</button></td>
+          </tr>
+        </table>
+      </form>
+    </div>
   </center>
 
   {{if .Message.Message}}
-  <div
-    class="alert alert-warning alert-dismissible fade show my-3"
-    role="alert"
-  >
+  <div class="alert alert-warning alert-dismissible fade show my-3" role="alert">
     {{.Message.Message}}
-    <button
-      type="button"
-      class="close"
-      data-dismiss="alert"
-      aria-label="Close"
-    >
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   {{end}}
 </body>
+
 </html>
