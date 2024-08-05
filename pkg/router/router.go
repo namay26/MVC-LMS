@@ -14,15 +14,18 @@ func Initialize() {
 	fmt.Println("Your server has started on port 8080")
 
 	mainRouter := mux.NewRouter()
-	mainRouter.HandleFunc("/", controller.GetPage)
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
+	GetPage := http.HandlerFunc(controller.GetPage)
+	LoginPage := http.HandlerFunc(controller.LoginPage)
 	adminRouter := mainRouter.PathPrefix("/admin").Subrouter()
 	userRouter := mainRouter.PathPrefix("/user").Subrouter()
 	http.Handle("/", mainRouter)
 	mainRouter.HandleFunc("/register", controller.RegisterPage).Methods("GET")
-	mainRouter.HandleFunc("/login", controller.LoginPage).Methods("GET")
+	mainRouter.HandleFunc("/logout", controller.Logout).Methods("GET")
+	mainRouter.Handle("/", middleware.LoginMiddleware(GetPage)).Methods("GET")
+	mainRouter.Handle("/login", middleware.LoginMiddleware(LoginPage)).Methods("GET")
 
 	adminRouter.Use(middleware.Authenticator)
 	userRouter.Use(middleware.Authenticator)

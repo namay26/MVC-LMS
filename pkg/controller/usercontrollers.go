@@ -95,6 +95,23 @@ func ReqCheckout(w http.ResponseWriter, r *http.Request) {
 // User Request For Admin Privileges
 
 func GetRequestAdmin(w http.ResponseWriter, r *http.Request) {
+	db, _ := model.Connect()
+	defer db.Close()
+
+	user := middleware.GetUser(r)
+
+	check, err1 := model.CheckRequest(db, user)
+
+	if err1 != nil {
+		log.Println(err1)
+		http.Redirect(w, r, "/500", http.StatusSeeOther)
+		return
+	}
+
+	if check {
+		SetFlash(w, r, "Request already sent")
+	}
+
 	var message structs.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
@@ -114,6 +131,18 @@ func RequestAdmin(w http.ResponseWriter, r *http.Request) {
 
 	user := middleware.GetUser(r)
 
+	check, err1 := model.CheckRequest(db, user)
+
+	if err1 != nil {
+		log.Println(err1)
+		http.Redirect(w, r, "/500", http.StatusSeeOther)
+		return
+	}
+
+	if check {
+		SetFlash(w, r, "Request already sent")
+		return
+	}
 	requestadmin, err := model.RequestAdmin(db, user)
 	if err != nil {
 		log.Println(err)

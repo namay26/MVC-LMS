@@ -96,3 +96,51 @@ func GetUser(r *http.Request) structs.User {
 	user := r.Context().Value("user").(structs.User)
 	return user
 }
+
+func LoginMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("JWT")
+
+		if err != nil {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		tokenString := cookie.Value
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			return []byte(SecretKey), nil
+		})
+		if err != nil {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+			username := claims["username"].(string)
+			userid := claims["userid"].(float64)
+			isAdmin := claims["IsAdmin"].(bool)
+			expiry := claims["expiry"].(float64)
+			if int64(expiry) < time.Now().Unix() {
+				next.ServeHTTP(w, r)
+				return
+			}
+			user := structs.User{
+				Username: username,
+				Userid:   userid,
+				IsAdmin:  isAdmin,
+			}
+			ctx := context.WithValue(r.Context(), "user", user)
+
+			if user.IsAdmin {
+				http.Redirect(w, r.WithContext(ctx), "/admin/home", http.StatusSeeOther)
+				return
+			} else {
+				http.Redirect(w, r.WithContext(ctx), "/user/home", http.StatusSeeOther)
+				return
+			}
+		} else {
+			next.ServeHTTP(w, r)
+			return
+		}
+	})
+}

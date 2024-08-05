@@ -37,3 +37,14 @@ func GrantAdminUpdate(db *sql.DB, userId string) (bool, error) {
 	return true, nil
 
 }
+
+func DenyAdminUpdate(db *sql.DB, userId string) (bool, error) {
+
+	uid, _ := strconv.Atoi(userId)
+	_, err := db.Exec("Update Users set isAdmin=0, adminStatus='NotRequested' where userid=?", uid)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+
+}

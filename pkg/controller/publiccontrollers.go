@@ -12,12 +12,7 @@ import (
 )
 
 func GetPage(w http.ResponseWriter, r *http.Request) {
-	cookie := &http.Cookie{
-		Name:   "JWT",
-		Value:  "",
-		MaxAge: -1,
-	}
-	http.SetCookie(w, cookie)
+
 	var data structs.Datasent
 	views.Render(w, "index", data)
 }
@@ -25,13 +20,7 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 // Get login page
 
 func LoginPage(w http.ResponseWriter, r *http.Request) {
-	cookie := &http.Cookie{
-		Name:   "JWT",
-		Value:  "",
-		MaxAge: -1,
-	}
 
-	http.SetCookie(w, cookie)
 	var message structs.PageMessage
 	var err error
 
@@ -50,6 +39,7 @@ func LoginPage(w http.ResponseWriter, r *http.Request) {
 func Login(w http.ResponseWriter, r *http.Request) {
 	db, _ := model.Connect()
 	defer db.Close()
+
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 
@@ -162,4 +152,14 @@ func InternalServerError(w http.ResponseWriter, r *http.Request) {
 func PageNotFound(w http.ResponseWriter, r *http.Request) {
 	var data structs.Datasent
 	views.Render(w, "PageNotFound", data)
+}
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	cookie := &http.Cookie{
+		Name:   "JWT",
+		Value:  "",
+		MaxAge: -1,
+	}
+	http.SetCookie(w, cookie)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

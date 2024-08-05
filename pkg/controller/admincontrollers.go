@@ -250,20 +250,37 @@ func GrantAdmin(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 	userId := r.FormValue("userid")
+	choice := r.FormValue("choice")
 
-	success, err := model.GrantAdminUpdate(db, userId)
-	if err != nil {
-		log.Println(err)
-		http.Redirect(w, r, "/500", http.StatusSeeOther)
-		return
-	}
-	if !success {
-		SetFlash(w, r, "Admin Grant Failed!")
+	if choice == "approve" {
+		success, err := model.GrantAdminUpdate(db, userId)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(w, r, "/500", http.StatusSeeOther)
+			return
+		}
+		if !success {
+			SetFlash(w, r, "Admin Grant Failed!")
+			http.Redirect(w, r, "/admin/grantadmin", http.StatusSeeOther)
+			return
+		}
+		SetFlash(w, r, "Admin Granted Successfully!")
 		http.Redirect(w, r, "/admin/grantadmin", http.StatusSeeOther)
-		return
+	} else {
+		success, err := model.DenyAdminUpdate(db, userId)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(w, r, "/500", http.StatusSeeOther)
+			return
+		}
+		if !success {
+			SetFlash(w, r, "Request Deny Failed!")
+			http.Redirect(w, r, "/admin/grantadmin", http.StatusSeeOther)
+			return
+		}
+		SetFlash(w, r, "Admin Request denied Successfully!")
+		http.Redirect(w, r, "/admin/grantadmin", http.StatusSeeOther)
 	}
-	SetFlash(w, r, "Admin Granted Successfully!")
-	http.Redirect(w, r, "/admin/grantadmin", http.StatusSeeOther)
 }
 
 // Admin Book Requests
@@ -294,17 +311,35 @@ func ViewRequest(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	userid := r.FormValue("userid")
 	bookid := r.FormValue("bookid")
-	acptreq, err := model.AcceptRequest(db, userid, bookid)
-	if err != nil {
-		log.Println(err)
-		http.Redirect(w, r, "/500", http.StatusSeeOther)
-		return
-	}
-	if acptreq {
-		SetFlash(w, r, "Request Accepted")
-		http.Redirect(w, r, "/admin/viewrequest", http.StatusSeeOther)
+	choice := r.FormValue("choice")
+
+	if choice == "approve" {
+		acptreq, err := model.AcceptRequest(db, userid, bookid)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(w, r, "/500", http.StatusSeeOther)
+			return
+		}
+		if acptreq {
+			SetFlash(w, r, "Request Accepted")
+			http.Redirect(w, r, "/admin/viewrequest", http.StatusSeeOther)
+		} else {
+			fmt.Println("Error")
+		}
 	} else {
-		fmt.Println("Error")
+		denyreq, err := model.DenyRequest(db, userid, bookid)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(w, r, "/500", http.StatusSeeOther)
+			return
+		}
+		if denyreq {
+			SetFlash(w, r, "Request Denied")
+			http.Redirect(w, r, "/admin/viewrequest", http.StatusSeeOther)
+		} else {
+			fmt.Println("Error")
+		}
+
 	}
 
 }

@@ -11,58 +11,7 @@
     defer></script>
     <script src="/public/checks.js"></script>
   <title>Document</title>
-  <style>
-    .right {
-      background-color: #444969;
-      border: 1px solid #444969;
-    }
-
-    .item {
-      width: 80%;
-      text-align: center;
-      margin-top: 1in;
-    }
-
-    .b {
-      margin-left: 0.05in;
-      color: white;
-      background-color: red;
-      border-radius: 0.05in;
-    }
-
-    .navbar {
-      height: 10vh;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .btnn {
-      color: white;
-      border: none;
-      border-radius: 0.05in;
-      margin-left: 40%;
-    }
-    .quantity{                                                                                          
-  
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-    }                                                
-    .quantity button{
-      padding-left: 0.25in;
-      padding-right: 0.25in;
-      margin: 0.05in;
-    }
-    .quantity input{
-      margin: 0.05in;
-    }
-  </style>
+  <link rel="stylesheet" href="/public/major.css">
 </head>
 
 <body>
@@ -90,7 +39,7 @@
             <a class="nav-link" href="/admin/grantadmin">Admin Requests</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link b" href="/login">LOG-OUT</a>
+            <a class="nav-link b" href="/logout">LOG-OUT</a>
           </li>
         </ul>
         <div>
@@ -121,7 +70,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="container">
+    <div class="container3">
       <form method="post" action="/admin/updatebook">
         <table>
           <input type="hidden" ng-model="book.ID" name="id" value={{.Results.ID}} class="form-control" required />
@@ -157,16 +106,13 @@
         </table>
       </form>
     </div>
-  </center>
 
   {{if .Message.Message}}
-  <div class="alert alert-warning alert-dismissible fade show my-3" role="alert">
+  <div style="color:red">
     {{.Message.Message}}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
   </div>
   {{end}}
+</center>
 </body>
 
 </html>
