@@ -1,39 +1,45 @@
-body{
-    background-color: #252839;
-  }
-  .maincon{
-    width:100%;
-    height:80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  h2{
-    position: relative;
-    font-size: 1.3in;
-    color:#252839;
-    text-transform: uppercase;
-  }
-  h2::before{
-    content: attr(data-text);
-    position: absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    color: white;
-    border-right: 2px solid white;
-    overflow: hidden;
-    animation: animate 6s linear infinite;
-  }
-  .navbar{
+body {
+  background-color: #252839;
+}
+
+.maincon {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 {
+  position: relative;
+  font-size: 7rem;
+  color: #252839;
+  text-transform: uppercase;
+}
+
+h2::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  border-right: 0.3rem solid white;
+  overflow: hidden;
+  animation: animate 3s linear infinite;
+}
+
+.navbar {
   height: 10vh;
 }
-  @keyframes animate{
-    0%{
-      width:0;
-    }
-    100%{
-      width:100%;
-    }
+
+@keyframes animate {
+  0% {
+    width: 0;
   }
+
+  100% {
+    width: 100%;
+  }
+}

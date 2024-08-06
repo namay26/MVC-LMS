@@ -6,14 +6,14 @@ import (
 
 	"github.com/namay26/MVC-LMS/pkg/middleware"
 	"github.com/namay26/MVC-LMS/pkg/model"
-	"github.com/namay26/MVC-LMS/pkg/structs"
+	"github.com/namay26/MVC-LMS/pkg/types"
 	"github.com/namay26/MVC-LMS/pkg/views"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func GetPage(w http.ResponseWriter, r *http.Request) {
 
-	var data structs.Datasent
+	var data types.Datasent
 	views.Render(w, "index", data)
 }
 
@@ -21,7 +21,7 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 
 func LoginPage(w http.ResponseWriter, r *http.Request) {
 
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 
 	message.Message, err = GetFlash(w, r)
@@ -31,7 +31,7 @@ func LoginPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var data structs.Datasent
+	var data types.Datasent
 	data.Message = message
 	views.Render(w, "login", data)
 }
@@ -84,7 +84,7 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) {
 	}
 	http.SetCookie(w, cookie)
 
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -92,7 +92,7 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Message = message
 	views.Render(w, "register", data)
 }
@@ -111,7 +111,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if !userFound {
 		password, _ := bcrypt.GenerateFromPassword([]byte(r.FormValue("password")), bcrypt.DefaultCost)
 
-		user := structs.User{
+		user := types.User{
 			Username: r.FormValue("username"),
 			Pass:     password,
 		}
@@ -145,12 +145,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 // Error Handles
 
 func InternalServerError(w http.ResponseWriter, r *http.Request) {
-	var data structs.Datasent
+	var data types.Datasent
 	views.Render(w, "InternalServerError", data)
 }
 
 func PageNotFound(w http.ResponseWriter, r *http.Request) {
-	var data structs.Datasent
+	var data types.Datasent
 	views.Render(w, "PageNotFound", data)
 }
 
@@ -161,5 +161,5 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		MaxAge: -1,
 	}
 	http.SetCookie(w, cookie)
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

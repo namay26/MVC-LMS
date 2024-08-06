@@ -9,7 +9,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/namay26/MVC-LMS/pkg/model"
-	"github.com/namay26/MVC-LMS/pkg/structs"
+	"github.com/namay26/MVC-LMS/pkg/types"
 )
 
 var SecretKey string
@@ -18,7 +18,7 @@ func init() {
 	SecretKey = model.JwtSecretKey()
 }
 
-func createToken(user structs.User) string {
+func createToken(user types.User) string {
 	var claims = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": user.Username,
 		"userid":   user.Userid,
@@ -33,7 +33,7 @@ func createToken(user structs.User) string {
 	return token
 }
 
-func SendCookie(w http.ResponseWriter, user structs.User) {
+func SendCookie(w http.ResponseWriter, user types.User) {
 	token := createToken(user)
 	cookie := http.Cookie{
 		Name:     "JWT",
@@ -70,7 +70,7 @@ func Authenticator(next http.Handler) http.Handler {
 				http.Redirect(w, r, "/login", http.StatusSeeOther)
 				return
 			}
-			user := structs.User{
+			user := types.User{
 				Username: username,
 				Userid:   userid,
 				IsAdmin:  isAdmin,
@@ -92,8 +92,8 @@ func Authenticator(next http.Handler) http.Handler {
 	})
 }
 
-func GetUser(r *http.Request) structs.User {
-	user := r.Context().Value("user").(structs.User)
+func GetUser(r *http.Request) types.User {
+	user := r.Context().Value("user").(types.User)
 	return user
 }
 
@@ -124,7 +124,7 @@ func LoginMiddleware(next http.Handler) http.Handler {
 				next.ServeHTTP(w, r)
 				return
 			}
-			user := structs.User{
+			user := types.User{
 				Username: username,
 				Userid:   userid,
 				IsAdmin:  isAdmin,

@@ -24,9 +24,6 @@
                 <a class="nav-link active" href="/admin/addbook">Add</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/admin/deletebook">Delete</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href="/admin/viewrequest">Book Requests</a>
               </li>
               <li class="nav-item">
@@ -63,7 +60,7 @@
               </tr>
             </tbody>
           </table>
-          <button type="submit" onclick="checkquant()">Add Book</button>
+          <button type="submit" class="btn btn-primary" onclick="checkquant()">Add Book</button>
       </form>
       {{if .Message.Message}}
       <div style="color:red">

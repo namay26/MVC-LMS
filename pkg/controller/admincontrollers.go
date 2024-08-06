@@ -6,19 +6,19 @@ import (
 	"net/http"
 
 	"github.com/namay26/MVC-LMS/pkg/model"
-	"github.com/namay26/MVC-LMS/pkg/structs"
+	"github.com/namay26/MVC-LMS/pkg/types"
 	"github.com/namay26/MVC-LMS/pkg/views"
 )
 
 // Admin Dashboard
 func AdminHome(w http.ResponseWriter, r *http.Request) {
-	var data structs.Datasent
+	var data types.Datasent
 	views.Render(w, "adminhome", data)
 }
 
 // Add Book Functions
 func GetAddBook(w http.ResponseWriter, r *http.Request) {
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -26,7 +26,7 @@ func GetAddBook(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Message = message
 	views.Render(w, "addbook", data)
 }
@@ -89,7 +89,7 @@ func GetAdminListBook(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -97,7 +97,7 @@ func GetAdminListBook(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Message = message
 	data.Results = booklist
 	views.Render(w, "adminlistbooks", data)
@@ -118,7 +118,7 @@ func GetAdminUpdate(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -126,7 +126,7 @@ func GetAdminUpdate(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Results = Book
 	data.Message = message
 	views.Render(w, "adminupdate", data)
@@ -159,31 +159,6 @@ func AdminUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Admin Delete Book
-
-func GetDeleteBook(w http.ResponseWriter, r *http.Request) {
-	db, _ := model.Connect()
-	defer db.Close()
-
-	booklist, err2 := model.GetBooks(db)
-	if err2 != nil {
-		http.Redirect(w, r, "/500", http.StatusSeeOther)
-		panic(err2)
-	}
-	var message structs.PageMessage
-	var err error
-	message.Message, err = GetFlash(w, r)
-	if err != nil {
-		log.Println(err)
-		http.Redirect(w, r, "/500", http.StatusSeeOther)
-		return
-	}
-	var data structs.Datasent
-	data.Message = message
-	data.Results = booklist
-	views.Render(w, "deletebook", data)
-}
-
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	bookid := r.FormValue("id")
@@ -199,7 +174,7 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	}
 	if checkBorrowed {
 		SetFlash(w, r, "Book is borrowed, cannot delete!")
-		http.Redirect(w, r, "/admin/deletebook", http.StatusSeeOther)
+		http.Redirect(w, r, "/admin/listbooks", http.StatusSeeOther)
 		return
 	}
 	deletesuccess, err1 := model.DeleteBook(db, bookid)
@@ -210,10 +185,10 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	}
 	if deletesuccess {
 		SetFlash(w, r, "Book deleted Successfully!")
-		http.Redirect(w, r, "/admin/deletebook", http.StatusSeeOther)
+		http.Redirect(w, r, "/admin/listbooks", http.StatusSeeOther)
 	} else {
 		SetFlash(w, r, "Book couldnt be deleted")
-		http.Redirect(w, r, "/admin/deletebook", http.StatusSeeOther)
+		http.Redirect(w, r, "/admin/listbooks", http.StatusSeeOther)
 	}
 
 }
@@ -230,7 +205,7 @@ func GetGrantAdmin(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -238,7 +213,7 @@ func GetGrantAdmin(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Results = requests
 	data.Message = message
 	views.Render(w, "grantadmin", data)
@@ -290,7 +265,7 @@ func GetViewRequest(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	listusers, _ := model.ViewRequest(db)
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -298,7 +273,7 @@ func GetViewRequest(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Message = message
 	data.Results = listusers
 	views.Render(w, "viewrequest", data)

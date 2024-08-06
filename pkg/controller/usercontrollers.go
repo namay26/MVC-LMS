@@ -6,12 +6,12 @@ import (
 
 	"github.com/namay26/MVC-LMS/pkg/middleware"
 	"github.com/namay26/MVC-LMS/pkg/model"
-	"github.com/namay26/MVC-LMS/pkg/structs"
+	"github.com/namay26/MVC-LMS/pkg/types"
 	"github.com/namay26/MVC-LMS/pkg/views"
 )
 
 func UserHome(w http.ResponseWriter, r *http.Request) {
-	var data structs.Datasent
+	var data types.Datasent
 	views.Render(w, "home", data)
 }
 
@@ -27,7 +27,7 @@ func GetBorrowHistory(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Results = borrowhistory
 	views.Render(w, "borrowhistory", data)
 }
@@ -44,7 +44,7 @@ func UserListBooks(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Results = booklist
 	views.Render(w, "listbooks", data)
 }
@@ -59,7 +59,7 @@ func GetReqCheckout(w http.ResponseWriter, r *http.Request) {
 	if err2 != nil {
 		panic(err2)
 	}
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -67,7 +67,7 @@ func GetReqCheckout(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Message = message
 	data.Results = booklist
 	views.Render(w, "reqcheckout", data)
@@ -112,7 +112,7 @@ func GetRequestAdmin(w http.ResponseWriter, r *http.Request) {
 		SetFlash(w, r, "Request already sent")
 	}
 
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -120,7 +120,7 @@ func GetRequestAdmin(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Message = message
 	views.Render(w, "requestadmin", data)
 }
@@ -169,7 +169,7 @@ func GetReturnBook(w http.ResponseWriter, r *http.Request) {
 	user := middleware.GetUser(r)
 
 	returnbook, _ := model.GetReturnBook(db, user)
-	var message structs.PageMessage
+	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(w, r)
 	if err != nil {
@@ -177,7 +177,7 @@ func GetReturnBook(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/500", http.StatusSeeOther)
 		return
 	}
-	var data structs.Datasent
+	var data types.Datasent
 	data.Message = message
 	data.Results = returnbook
 	views.Render(w, "returnbook", data)

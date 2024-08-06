@@ -51,7 +51,7 @@
     <form action="requestadmin" method="POST">
       <div class="maincont">
         Do you wish to apply for the Admin Status?
-      {{if .Message.Message}}
+        {{if .Message.Message}}
         <button type="submit" class="btn btn-primary" disabled>YES</button>
 
       </div>
@@ -61,12 +61,13 @@
       {{.Message.Message}}
     </div>
     {{else}}
+
     <button type="submit" class="btn btn-primary">YES</button>
 
-  </div>
+    </div>
 
-</form>
-{{end}}
+    </form>
+    {{end}}
   </center>
 
 </body>
